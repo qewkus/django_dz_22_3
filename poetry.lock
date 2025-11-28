@@ -37,6 +37,18 @@ argon2 = ["argon2-cffi (>=19.1.0)"]
 bcrypt = ["bcrypt"]
 
 [[package]]
+name = "include"
+version = "0.2.2"
+description = "Dynamic import from files and other sources"
+optional = false
+python-versions = "*"
+groups = ["main"]
+files = [
+    {file = "include-0.2.2-py2.py3-none-any.whl", hash = "sha256:58c7d81ba82b92ed432919aaa019bdde7258c569bfd85f1ea44a525576b20529"},
+    {file = "include-0.2.2.tar.gz", hash = "sha256:37c2c6854f145bce050e75847c8da17039bdfae76d2c7e95bf531eaad2148e69"},
+]
+
+[[package]]
 name = "sqlparse"
 version = "0.5.4"
 description = "A non-validating SQL parser."
@@ -59,7 +71,6 @@ description = "Provider of IANA time zone data"
 optional = false
 python-versions = ">=2"
 groups = ["main"]
-markers = "sys_platform == \"win32\""
 files = [
     {file = "tzdata-2025.2-py2.py3-none-any.whl", hash = "sha256:1a403fada01ff9221ca8044d701868fa132215d84beb92242d9acd2147f667a8"},
     {file = "tzdata-2025.2.tar.gz", hash = "sha256:b60a638fcc0daffadf82fe0f57e53d06bdec2f36c4df66280ae79bce6bd6f2b9"},
@@ -68,4 +79,4 @@ files = [
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.13"
-content-hash = "286ff6ad421f11b0095360cc8d82adc025abfa4ff00a733731c8809798020ff3"
+content-hash = "8acbc0ffa0ba8d63e290c07330e46016aad0d95ad645d9c33f65c75131442eff"
