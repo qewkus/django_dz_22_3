@@ -1,0 +1,26 @@
+[
+    {
+        "model": "your_app.product",
+        "pk": 1,
+        "fields": {
+            "name": "Smartphone",
+            "category": 1
+        }
+    },
+    {
+        "model": "your_app.product",
+        "pk": 2,
+        "fields": {
+            "name": "Laptop",
+            "category": 1
+        }
+    },
+    {
+        "model": "your_app.product",
+        "pk": 3,
+        "fields": {
+            "name": "Django for Beginners",
+            "category": 2
+        }
+    }
+]
