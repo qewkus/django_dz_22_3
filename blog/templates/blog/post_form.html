@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main>
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <h1 class="mb-4">{% if object %}Редактировать запись{% else %}Создать новую запись{% endif %}</h1>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="card">
+                        <div class="card-body">
+                            {{ form.as_p }}
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary">
+                                {% if object %}Сохранить изменения{% else %}Создать{% endif %}
+                            </button>
+                            <a href="{% if object %}{% url 'blog:post_detail' pk=object.pk %}{% else %}{% url 'blog:post_list' %}{% endif %}"
+                               class="btn btn-secondary">Отмена</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

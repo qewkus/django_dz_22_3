@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main>
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <article>
+                    <header class="mb-4">
+                        <h1 class="fw-bolder mb-1">{{ post.title }}</h1>
+                        <div class="text-muted fst-italic mb-2">Опубликовано {{ post.created_at|date:"d F Y" }}</div>
+                        <div class="text-muted">Просмотры: {{ post.views_count }}</div>
+                    </header>
+
+                    {% if post.preview_image %}
+                    <figure class="mb-4">
+                        <img class="img-fluid rounded" src="{{ post.preview_image.url }}" alt="{{ post.title }}" />
+                    </figure>
+                    {% endif %}
+
+                    <section class="mb-5">
+                        <p class="fs-5">{{ post.content|linebreaksbr }}</p>
+                    </section>
+                </article>
+
+                <div class="d-flex justify-content-end mb-4">
+                    <a class="btn btn-primary me-2" href="{% url 'blog:post_update' pk=post.pk %}">Редактировать</a>
+                    <a class="btn btn-danger" href="{% url 'blog:post_delete' pk=post.pk %}">Удалить</a>
+                </div>
+                 <a class="btn btn-outline-secondary" href="{% url 'blog:post_list' %}">Назад к списку</a>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
