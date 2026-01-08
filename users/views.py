@@ -4,6 +4,10 @@ from django.views.generic import CreateView
 from django.core.mail import send_mail
 from config.settings import EMAIL_HOST_USER
 from django.contrib import messages
+from .models import CustomUser
+from .forms import CustomUserChangeForm
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import UpdateView
 
 
 class RegisterView(CreateView):
@@ -26,3 +30,20 @@ class RegisterView(CreateView):
         from_email = EMAIL_HOST_USER
         recipient_list = [user_email,]
         send_mail(subject, message, from_email, recipient_list)
+
+
+class ProfileUpdateView(LoginRequiredMixin, UpdateView):
+    model = CustomUser
+    form_class = CustomUserChangeForm
+    template_name = "users/edit_profile.html"
+    success_url = reverse_lazy("catalog:home")
+
+    def get_object(self):
+        return self.request.user
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Профиль успешно обновлен!')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'Ошибка при обновлении профиля.')
