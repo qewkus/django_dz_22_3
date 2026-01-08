@@ -5,11 +5,7 @@ from django.contrib.auth import get_user_model
 class Command(BaseCommand):
     def handle(self, *args, **options):
         User = get_user_model()
-        user = User.objects.create(
-            email='testadmin@email.ru',
-            first_name='admin',
-            last_name='admin'
-        )
+        user = User.objects.create(email="testadmin@email.ru", first_name="admin", last_name="admin")
 
         user.set_password('27081911')
 

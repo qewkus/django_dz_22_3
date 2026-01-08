@@ -1,13 +1,12 @@
-from .forms import CustomUserCreationForm
-from django.urls import reverse_lazy
-from django.views.generic import CreateView
-from django.core.mail import send_mail
 from config.settings import EMAIL_HOST_USER
 from django.contrib import messages
-from .models import CustomUser
-from .forms import CustomUserChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import UpdateView
+from django.core.mail import send_mail
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, UpdateView
+
+from .forms import CustomUserChangeForm, CustomUserCreationForm
+from .models import CustomUser
 
 
 class RegisterView(CreateView):

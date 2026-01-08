@@ -9,8 +9,11 @@ class CustomUser(AbstractUser):
     avatar = models.ImageField(upload_to='users/avatars/', blank=True, null=True)
     country = models.CharField(max_length=50, blank=True, null=True)
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username',]
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = [
+        "username",
+    ]
+
 
     class Meta:
         verbose_name = "Пользователь"
