@@ -6,6 +6,7 @@ from django.views.generic import ListView, UpdateView, CreateView, DeleteView, D
 
 from catalog.forms import ProductForm, VersionForm
 from catalog.models import Product, Version, Category
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class ProductListView(LoginRequiredMixin, ListView):
