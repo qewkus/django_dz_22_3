@@ -10,6 +10,7 @@ class CustomUser(AbstractUser):
     country = models.CharField(max_length=50, blank=True, null=True)
 
     USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = []
 
 
     class Meta:
