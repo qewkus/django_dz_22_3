@@ -1,92 +1,51 @@
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.forms import inlineformset_factory
-
+from catalog.forms import ProductForm
+from catalog.models import Product
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponse
+from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import ListView, UpdateView, CreateView, DeleteView, DetailView
-
-from catalog.forms import ProductForm, VersionForm
-from catalog.models import Product, Version, Category
+from django.views import View
+from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
 
-class ProductListView(LoginRequiredMixin, ListView):
+class CatalogHomeView(ListView):
     model = Product
-    template_name = 'catalog/product.html'
-
-    # def get_queryset(self):
-    #     return super().get_queryset().filter(
-    #         category=self.kwargs.get('pk'),
-    #         owner=self.request.user
-    #     )
-
-    # def get_context_data(self, *args, **kwargs):
-    #     context_data = super().get_context_data(*args, **kwargs)
-    #     category_item = Category.objects.get(pk=self.kwargs.get('pk'))
-    #     context_data['category_pk'] = category_item.pk
-    #     context_data['title'] = f'Продукты - вск категории {category_item.name}'
-    #     return context_data
+    template_name = "catalog/base.html"
+    context_object_name = "products"
 
 
-class ProductDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
+class CatalogContactsView(View):
+    def get(self, request):
+        return render(request, "catalog/contacts.html")
+
+    def post(self, request):
+        name = request.POST.get("name")
+        phone = request.POST.get("phone")
+        message = request.POST.get("message")
+        return HttpResponse(f"Спасибо,{name}, ваше сообщение получено!")
+
+
+class CatalogDetailView(DetailView):
     model = Product
-    permission_required = 'catalog.view_product'
+    template_name = "catalog/product_detail.html"
+    context_object_name = "product"
 
 
-
-class ProductCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
-    permission_required = 'catalog.add_product'
-    success_url = reverse_lazy('catalog:product')
-
-    def form_valid(self, form):
-        form.instance.owner = self.request.user
-        return super().form_valid(form)
+    template_name = "catalog/product_create.html"
+    success_url = reverse_lazy("catalog:home")
 
 
-class ProductUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
-    permission_required = 'catalog.change_product'
-    success_url = reverse_lazy('catalog:product')
-
-    # def get_queryset(self):
-    #     queryset = super().get_queryset().filter(
-    #         category=self.kwargs.get('pk'),
-    #     )
-    #     if not self.request.user.is_staff:
-    #         queryset = queryset.filter(owner=self.request.user)
-    #     return queryset
-
-    def get_context_data(self, **kwargs):
-        context_data = super().get_context_data(**kwargs)
-        VersionFormset = inlineformset_factory(Product, Version, form=VersionForm, extra=1)
-        if self.request.method == "POST":
-            context_data['formset'] = VersionFormset(self.request.POST, instance=self.object)
-        else:
-            context_data['formset'] = VersionFormset(instance=self.object)
-        return context_data
-
-    def form_valid(self, form):
-        formset = self.get_context_data()['formset']
-        self.object = form.save()
-        if formset.is_valid():
-            formset.instance = self.object
-            formset.save()
-
-        return super().form_valid(form)
+    template_name = "catalog/product_create.html"
+    success_url = reverse_lazy("catalog:home")
 
 
-class ProductDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+class ProductDeleteView(DeleteView):
     model = Product
-    permission_required = 'catalog.delete_product'
-    success_url = reverse_lazy('catalog:product')
-
-
-class VersionListView(LoginRequiredMixin, ListView):
-    model = Version
-    form_class = VersionForm
-
-
-class VersionCreateView(LoginRequiredMixin, CreateView):
-    model = Version
-    form_class = VersionForm
+    template_name = "catalog/product_delete.html"
+    success_url = reverse_lazy("catalog:home")
